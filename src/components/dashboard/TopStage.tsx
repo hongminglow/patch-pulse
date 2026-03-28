@@ -2,6 +2,9 @@ type TopStageProps = {
   activeLogLaneCount: number
   commandAlias: string
   copiedKey: 'prompt' | 'command' | null
+  findingsError: string | null
+  findingsLoading: boolean
+  findingsSaving: boolean
   masterPrompt: string
   officialSourceCount: number
   reportChecklist: string[]
@@ -16,6 +19,9 @@ export function TopStage({
   activeLogLaneCount,
   commandAlias,
   copiedKey,
+  findingsError,
+  findingsLoading,
+  findingsSaving,
   masterPrompt,
   officialSourceCount,
   reportChecklist,
@@ -144,11 +150,19 @@ export function TopStage({
               </article>
             </div>
 
+            {findingsLoading ? (
+              <p className="status-copy">Loading findings from the JSON file...</p>
+            ) : null}
+            {findingsSaving ? (
+              <p className="status-copy">Saving findings to the JSON file...</p>
+            ) : null}
+            {findingsError ? <p className="status-copy status-copy--error">{findingsError}</p> : null}
+
             <button
               className="button button--ghost"
               type="button"
               onClick={onClearAllLogs}
-              disabled={savedLogCount === 0}
+              disabled={savedLogCount === 0 || findingsLoading || findingsSaving}
             >
               Hide all findings
             </button>

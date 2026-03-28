@@ -3,6 +3,7 @@ import type { WatchCategory, WatchItem } from '../../data/watchlist'
 import { WatchCard } from './WatchCard'
 
 type WatchCategorySectionProps = {
+  actionsDisabled: boolean
   category: WatchCategory
   items: WatchItem[]
   logsByItemId: Record<string, ResearchLog[]>
@@ -11,6 +12,7 @@ type WatchCategorySectionProps = {
 }
 
 export function WatchCategorySection({
+  actionsDisabled,
   category,
   items,
   logsByItemId,
@@ -36,7 +38,7 @@ export function WatchCategorySection({
           className="button button--ghost"
           type="button"
           onClick={() => onClearCategoryLogs(category.id)}
-          disabled={!hasCategoryLogs}
+          disabled={!hasCategoryLogs || actionsDisabled}
         >
           Hide section findings
         </button>
@@ -45,6 +47,7 @@ export function WatchCategorySection({
       <div className="watch-grid">
         {items.map((item) => (
           <WatchCard
+            actionsDisabled={actionsDisabled}
             key={item.id}
             item={item}
             logs={logsByItemId[item.id] ?? []}

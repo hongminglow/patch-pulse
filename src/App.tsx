@@ -16,6 +16,9 @@ function App() {
   const { copiedKey, copyWithFeedback } = useCopyFeedback()
   const {
     activeLogLaneCount,
+    error,
+    isLoading,
+    isSaving,
     logsByItemId,
     savedLogCount,
     clearLog,
@@ -39,6 +42,9 @@ function App() {
         reportChecklist={reportChecklist}
         savedLogCount={savedLogCount}
         watchItemCount={watchItems.length}
+        findingsError={error}
+        findingsLoading={isLoading}
+        findingsSaving={isSaving}
         onClearAllLogs={clearAllLogs}
         onCopyCommand={() => copyWithFeedback(commandAlias, 'command')}
         onCopyPrompt={() => copyWithFeedback(masterPrompt, 'prompt')}
@@ -49,6 +55,7 @@ function App() {
 
         {watchCategories.map((category) => (
           <WatchCategorySection
+            actionsDisabled={isLoading || isSaving}
             key={category.id}
             category={category}
             items={watchItems.filter((item) => item.categoryId === category.id)}

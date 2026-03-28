@@ -8,7 +8,7 @@ The goal is simple:
 - Later, type only `pulse`.
 - The agent should sweep your tracked stack, find the latest official updates, and return the important news with links.
 
-This repo now acts as the visual command center for that workflow. It groups your watchlist into clean sections, surfaces official source links per item, and treats the local findings file as the source of truth.
+This repo now acts as the visual command center for that workflow. It groups your watchlist into clean sections, surfaces official source links per item, and treats the local JSON findings file as the source of truth.
 
 ## What the app is trying to do
 
@@ -54,12 +54,12 @@ That structure keeps the dashboard readable and makes it easier to scan by menta
 Every watch card is now a permanent lane, and the changing part is the Findings log under that lane.
 
 - Each library can show one or more latest Findings from the current sweep.
-- Remove one finding at a time from the current view when you no longer need it on screen.
-- Hide a whole section or the whole board temporarily if you want a cleaner scan.
+- Remove one finding at a time and persist that change back into the JSON file.
+- Hide a whole section or the whole board by rewriting the same JSON file.
 - The watch cards themselves stay visible.
-- Findings come from the local source file, and UI clearing does not rewrite the file.
+- Findings come from the local JSON source file and the UI updates that file through the local Vite API.
 
-If you want a fresh `pulse` sweep to replace old findings, the AI agent that runs it needs permission to edit [src/data/researchLogs.ts](C:/Users/User/OneDrive/Desktop/CodeTest/patch-pulse/src/data/researchLogs.ts). This app reads that file; it does not mutate it on its own at runtime.
+If you want a fresh `pulse` sweep to replace old findings, the AI agent that runs it should overwrite [public/data/researchLogs.json](C:/Users/User/OneDrive/Desktop/CodeTest/patch-pulse/public/data/researchLogs.json). The app reads and updates that same file through the local `/api/research-logs` endpoint provided by Vite.
 
 ## Recommended usage flow
 

@@ -3,12 +3,18 @@ import type { WatchItem } from '../../data/watchlist'
 import { ClearIcon } from '../ui/ClearIcon'
 
 type WatchCardProps = {
+  actionsDisabled: boolean
   item: WatchItem
   logs: ResearchLog[]
   onClearLog: (logId: string) => void
 }
 
-export function WatchCard({ item, logs, onClearLog }: WatchCardProps) {
+export function WatchCard({
+  actionsDisabled,
+  item,
+  logs,
+  onClearLog,
+}: WatchCardProps) {
   return (
     <article className="watch-card">
       <div className="watch-card__top">
@@ -41,6 +47,7 @@ export function WatchCard({ item, logs, onClearLog }: WatchCardProps) {
             {logs.map((log) => (
               <LogCard
                 key={log.id}
+                actionsDisabled={actionsDisabled}
                 log={log}
                 itemName={item.name}
                 onClearLog={onClearLog}
@@ -76,10 +83,12 @@ export function WatchCard({ item, logs, onClearLog }: WatchCardProps) {
 }
 
 function LogCard({
+  actionsDisabled,
   log,
   itemName,
   onClearLog,
 }: {
+  actionsDisabled: boolean
   log: ResearchLog
   itemName: string
   onClearLog: (logId: string) => void
@@ -98,6 +107,7 @@ function LogCard({
           type="button"
           onClick={() => onClearLog(log.id)}
           aria-label={`Remove finding "${log.title}" from ${itemName}`}
+          disabled={actionsDisabled}
         >
           <ClearIcon />
         </button>
