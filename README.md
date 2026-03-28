@@ -5,7 +5,7 @@ Patch Pulse is a dark-mode frontend update dashboard built around one reusable A
 The goal is simple:
 
 - Load one master prompt into a browsing-capable AI agent.
-- Later, type only `search`.
+- Later, type only `pulse`.
 - The agent should sweep your tracked stack, find the latest official updates, and return the important news with links.
 
 This repo now acts as the visual command center for that workflow. It groups your watchlist into clean sections, surfaces official source links per item, and lets you clear cards from local browser storage when you no longer want to see them.
@@ -65,7 +65,7 @@ Every watch card includes a clear action.
 2. Copy the master prompt from the dashboard.
 3. Paste it into your preferred AI agent that can browse the web.
 4. Keep that conversation or system instruction alive.
-5. Later, type only `search`.
+5. Later, type only `pulse`.
 6. Read the grouped report and open the official links when you want to go deeper.
 
 ## Reusable master prompt
