@@ -49,15 +49,15 @@ That structure keeps the dashboard readable and makes it easier to scan by menta
 - Linting stack
 - Interesting frontend libraries
 
-## Local clear behavior
+## Findings behavior
 
-Every watch card includes a clear action.
+Every watch card is now a permanent lane, and the changing part is the Findings log under that lane.
 
-- Clear an item if you do not want it on your board anymore.
-- Clear a whole section if that lane is noisy.
-- Cleared cards are stored in local browser storage.
-- If you never clear an item, it stays.
-- If you clear too much, use the restore button to bring the default watchlist back.
+- Each library can keep its own Findings for future reference.
+- Clear an item to remove only that item's Findings.
+- Clear a section to remove only the Findings inside that section.
+- The watch cards themselves stay visible.
+- Findings are stored in local browser storage until you clear them.
 
 ## Recommended usage flow
 
@@ -75,6 +75,12 @@ The reusable agent prompt now lives in a separate file so it stays clean and cop
 - [MASTER_PROMPT.md](C:/Users/User/OneDrive/Desktop/CodeTest/up-to-date/MASTER_PROMPT.md)
 
 Use that file directly when you want to initialize or refresh the AI agent instructions.
+
+## Findings file
+
+The last migrated report that had been mistakenly appended into the prompt now lives here:
+
+- [FINDINGS.md](C:/Users/User/OneDrive/Desktop/CodeTest/up-to-date/FINDINGS.md)
 
 ## Design direction
 

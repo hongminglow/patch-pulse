@@ -1,29 +1,29 @@
 type TopStageProps = {
-  commandAlias: string;
-  copiedKey: "prompt" | "command" | null;
-  hiddenCount: number;
-  masterPrompt: string;
-  officialSourceCount: number;
-  reportChecklist: string[];
-  visibleItemCount: number;
-  watchItemCount: number;
-  onCopyCommand: () => void;
-  onCopyPrompt: () => void;
-  onRestoreItems: () => void;
-};
+  activeLogLaneCount: number
+  commandAlias: string
+  copiedKey: 'prompt' | 'command' | null
+  masterPrompt: string
+  officialSourceCount: number
+  reportChecklist: string[]
+  savedLogCount: number
+  watchItemCount: number
+  onClearAllLogs: () => void
+  onCopyCommand: () => void
+  onCopyPrompt: () => void
+}
 
 export function TopStage({
+  activeLogLaneCount,
   commandAlias,
   copiedKey,
-  hiddenCount,
   masterPrompt,
   officialSourceCount,
   reportChecklist,
-  visibleItemCount,
+  savedLogCount,
   watchItemCount,
+  onClearAllLogs,
   onCopyCommand,
   onCopyPrompt,
-  onRestoreItems,
 }: TopStageProps) {
   return (
     <header className="hero">
@@ -45,7 +45,7 @@ export function TopStage({
             <strong>{officialSourceCount}</strong> official links
           </span>
           <span className="metric-chip">
-            <strong>{hiddenCount}</strong> locally cleared
+            <strong>{savedLogCount}</strong> findings
           </span>
         </div>
       </div>
@@ -65,17 +65,17 @@ export function TopStage({
 
             <div className="hero-actions">
               <button className="button" type="button" onClick={onCopyPrompt}>
-                {copiedKey === "prompt"
-                  ? "Copied prompt"
-                  : "Copy master prompt"}
+                {copiedKey === 'prompt'
+                  ? 'Copied prompt'
+                  : 'Copy master prompt'}
               </button>
               <button
                 className="button button--secondary"
                 type="button"
                 onClick={onCopyCommand}
               >
-                {copiedKey === "command"
-                  ? "Copied command"
+                {copiedKey === 'command'
+                  ? 'Copied command'
                   : `Copy "${commandAlias}"`}
               </button>
             </div>
@@ -124,31 +124,32 @@ export function TopStage({
           </section>
 
           <section className="panel compact-panel">
-            <p className="eyebrow">Local memory</p>
-            <h2>Clear what you do not want</h2>
+            <p className="eyebrow">Findings</p>
+            <h2>Clear logs without removing watch lanes</h2>
             <p className="panel-copy">
-              Every clear action is stored in browser local storage so the
-              dashboard stays focused on the items you still care about.
+              Cards remain permanent. Clear actions only remove findings
+              for the lane or section you no longer need, while anything you
+              keep stays in local browser storage for future reference.
             </p>
 
             <div className="memory-grid">
               <article>
-                <strong>{visibleItemCount}</strong>
-                <span>visible cards</span>
+                <strong>{savedLogCount}</strong>
+                <span>findings</span>
               </article>
               <article>
-                <strong>{hiddenCount}</strong>
-                <span>hidden cards</span>
+                <strong>{activeLogLaneCount}</strong>
+                <span>lanes with logs</span>
               </article>
             </div>
 
             <button
               className="button button--ghost"
               type="button"
-              onClick={onRestoreItems}
-              disabled={hiddenCount === 0}
+              onClick={onClearAllLogs}
+              disabled={savedLogCount === 0}
             >
-              Restore cleared cards
+              Clear all findings
             </button>
           </section>
 
@@ -167,5 +168,5 @@ export function TopStage({
         </div>
       </div>
     </header>
-  );
+  )
 }

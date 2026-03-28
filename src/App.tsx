@@ -10,17 +10,18 @@ import {
   watchItems,
 } from './data/watchlist'
 import { useCopyFeedback } from './hooks/useCopyFeedback'
-import { useHiddenWatchItems } from './hooks/useHiddenWatchItems'
+import { useResearchLogs } from './hooks/useResearchLogs'
 
 function App() {
   const { copiedKey, copyWithFeedback } = useCopyFeedback()
   const {
-    hiddenCount,
-    visibleItems,
-    clearCategory,
-    clearItem,
-    restoreItems,
-  } = useHiddenWatchItems(watchItems)
+    activeLogLaneCount,
+    logsByItemId,
+    savedLogCount,
+    clearAllLogs,
+    clearCategoryLogs,
+    clearItemLogs,
+  } = useResearchLogs(watchItems)
 
   const officialSourceCount = watchItems.reduce(
     (total, item) => total + item.links.length,
@@ -30,45 +31,30 @@ function App() {
   return (
     <div className="app-shell">
       <TopStage
+        activeLogLaneCount={activeLogLaneCount}
         commandAlias={commandAlias}
         copiedKey={copiedKey}
-        hiddenCount={hiddenCount}
         masterPrompt={masterPrompt}
         officialSourceCount={officialSourceCount}
         reportChecklist={reportChecklist}
-        visibleItemCount={visibleItems.length}
+        savedLogCount={savedLogCount}
         watchItemCount={watchItems.length}
+        onClearAllLogs={clearAllLogs}
         onCopyCommand={() => copyWithFeedback(commandAlias, 'command')}
         onCopyPrompt={() => copyWithFeedback(masterPrompt, 'prompt')}
-        onRestoreItems={restoreItems}
       />
 
       <main className="dashboard">
-        <WatchGroupsOverview
-          categories={watchCategories}
-          visibleItems={visibleItems}
-        />
-
-        {visibleItems.length === 0 ? (
-          <section className="section">
-            <div className="panel empty-state">
-              <p className="eyebrow">All clear</p>
-              <h2>Your local board is empty</h2>
-              <p>
-                You cleared every watch card from local storage. Use the restore
-                button above if you want the default watchlist back.
-              </p>
-            </div>
-          </section>
-        ) : null}
+        <WatchGroupsOverview categories={watchCategories} visibleItems={watchItems} />
 
         {watchCategories.map((category) => (
           <WatchCategorySection
             key={category.id}
             category={category}
-            items={visibleItems.filter((item) => item.categoryId === category.id)}
-            onClearCategory={clearCategory}
-            onClearItem={clearItem}
+            items={watchItems.filter((item) => item.categoryId === category.id)}
+            logsByItemId={logsByItemId}
+            onClearCategoryLogs={clearCategoryLogs}
+            onClearItemLogs={clearItemLogs}
           />
         ))}
       </main>

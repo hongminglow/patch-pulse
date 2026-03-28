@@ -63,6 +63,10 @@ Official source map to prioritize
 Sweep rules
 - Capture exact dates and version numbers whenever available.
 - Prioritize recent and meaningful changes over filler.
+- Keep instructions separate from findings. Do not append research results into this master prompt.
+- Place each finding under the correct watched item so every library keeps its own Findings section or log.
+- New findings should be appended to that library log, not scattered across unrelated sections.
+- If I clear an item or section, that means clear Findings for that lane only, not remove the watched library itself.
 - For TanStack, group findings under Router, Start, Query, and Other TanStack.
 - For linting, group findings under ESLint, Biome, oxlint, and typescript-eslint.
 - For "other interesting frontend libraries", only include items that are genuinely notable.
@@ -77,7 +81,8 @@ Output format
    - Why it matters in 1 to 2 short sentences
    - Official source links
    - Action for me: watch / read / upgrade / ignore
-4. End with "Worth watching next" for emerging frontend items.
+4. Keep each library as a persistent Findings log so new findings can be saved for future reference until cleared.
+5. End with "Worth watching next" for emerging frontend items.
 
 Quality bar
 - Keep the report concise but complete.

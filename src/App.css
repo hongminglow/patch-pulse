@@ -463,6 +463,33 @@
   text-transform: uppercase;
 }
 
+.watch-card__log-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.watch-card__inline-clear {
+  border: none;
+  background: transparent;
+  color: var(--color-accent-soft);
+  font: inherit;
+  font-size: 0.86rem;
+  cursor: pointer;
+  padding: 0;
+}
+
+.watch-card__inline-clear:hover {
+  color: var(--color-text-strong);
+}
+
+.watch-card__inline-clear:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
 .tag-list {
   display: flex;
   flex-wrap: wrap;
@@ -522,6 +549,80 @@
   outline-offset: 2px;
 }
 
+.source-link--log {
+  min-height: 34px;
+  padding-inline: 12px;
+  margin-top: 12px;
+}
+
+.log-list {
+  display: grid;
+  gap: 12px;
+}
+
+.log-card {
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(118, 176, 255, 0.14);
+  background: rgba(5, 13, 26, 0.72);
+}
+
+.log-card__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.log-card__kind,
+.log-card__date {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 0.76rem;
+}
+
+.log-card__kind {
+  background: rgba(77, 136, 255, 0.12);
+  color: var(--color-accent-soft);
+}
+
+.log-card__date {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-text-subtle);
+}
+
+.log-card h4 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  color: var(--color-text-strong);
+}
+
+.log-card p {
+  color: var(--color-text-muted);
+}
+
+.log-card__version {
+  margin-bottom: 8px;
+  color: var(--color-accent-soft);
+  font-size: 0.88rem;
+}
+
+.watch-card__empty {
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px dashed rgba(118, 176, 255, 0.16);
+  background: rgba(5, 13, 26, 0.42);
+  color: var(--color-text-muted);
+}
+
+.watch-card__empty code {
+  margin-inline: 2px;
+}
+
 .prompt-box {
   margin: 0;
   padding: 18px;
@@ -535,11 +636,6 @@
   line-height: 1.7;
   max-height: min(65vh, 640px);
   overflow: auto;
-}
-
-.empty-state {
-  text-align: center;
-  padding-block: 56px;
 }
 
 @media (max-width: 1180px) {

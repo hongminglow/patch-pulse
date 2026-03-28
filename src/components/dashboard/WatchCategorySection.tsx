@@ -1,3 +1,4 @@
+import type { ResearchLog } from '../../data/researchLogs'
 import type { WatchCategory, WatchItem } from '../../data/watchlist'
 import { ClearIcon } from '../ui/ClearIcon'
 import { WatchCard } from './WatchCard'
@@ -5,19 +6,23 @@ import { WatchCard } from './WatchCard'
 type WatchCategorySectionProps = {
   category: WatchCategory
   items: WatchItem[]
-  onClearCategory: (categoryId: WatchCategory['id']) => void
-  onClearItem: (itemId: string) => void
+  logsByItemId: Record<string, ResearchLog[]>
+  onClearCategoryLogs: (categoryId: WatchCategory['id']) => void
+  onClearItemLogs: (itemId: string) => void
 }
 
 export function WatchCategorySection({
   category,
   items,
-  onClearCategory,
-  onClearItem,
+  logsByItemId,
+  onClearCategoryLogs,
+  onClearItemLogs,
 }: WatchCategorySectionProps) {
   if (items.length === 0) {
     return null
   }
+
+  const hasCategoryLogs = items.some((item) => (logsByItemId[item.id] ?? []).length > 0)
 
   return (
     <section className="section category-section">
@@ -31,16 +36,22 @@ export function WatchCategorySection({
         <button
           className="button button--ghost button--icon"
           type="button"
-          onClick={() => onClearCategory(category.id)}
+          onClick={() => onClearCategoryLogs(category.id)}
+          disabled={!hasCategoryLogs}
         >
           <ClearIcon />
-          Clear section
+          Clear findings
         </button>
       </div>
 
       <div className="watch-grid">
         {items.map((item) => (
-          <WatchCard key={item.id} item={item} onClear={onClearItem} />
+          <WatchCard
+            key={item.id}
+            item={item}
+            logs={logsByItemId[item.id] ?? []}
+            onClearLogs={onClearItemLogs}
+          />
         ))}
       </div>
     </section>
