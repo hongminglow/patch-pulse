@@ -125,12 +125,12 @@ export function TopStage({
 
           <section className="panel compact-panel">
             <p className="eyebrow">Findings</p>
-            <h2>Clear logs without removing watch lanes</h2>
+            <h2>Hide findings without removing watch lanes</h2>
             <p className="panel-copy">
-              Cards remain permanent. Clear actions only remove findings
-              for the lane or section you no longer need. The source findings
-              stay file-backed, while the browser only remembers which entries
-              you have cleared between sessions.
+              Findings in this dashboard are read from the local source file.
+              Removing one here only hides it for the current view, so a fresh
+              <code>{commandAlias}</code> run can replace the file with the next
+              latest sweep cleanly.
             </p>
 
             <div className="memory-grid">
@@ -150,7 +150,7 @@ export function TopStage({
               onClick={onClearAllLogs}
               disabled={savedLogCount === 0}
             >
-              Clear all findings
+              Hide all findings
             </button>
           </section>
 

@@ -65,12 +65,12 @@ Sweep rules
 - Prioritize recent and meaningful changes over filler.
 - Keep instructions separate from findings. Do not append research results into this master prompt.
 - Place each finding under the correct watched item so every library keeps its own Findings section or log.
-- New findings should be appended to that library log, not scattered across unrelated sections.
+- Replace the previous findings snapshot with the latest sweep instead of building an ever-growing history.
 - If a section has multiple worthwhile updates, include multiple findings instead of forcing only one.
-- If I clear an item or section, that means clear Findings for that lane only, not remove the watched library itself.
 - For TanStack, group findings under Router, Start, Query, and Other TanStack.
 - For linting, group findings under ESLint, Biome, oxlint, and typescript-eslint.
 - For "other interesting frontend libraries", only include items that are genuinely notable.
+- If you have workspace edit access, overwrite `src/data/researchLogs.ts` with the latest findings after the sweep. If you do not have file access, return the report only.
 
 Output format
 1. Executive summary: the most important updates across the sweep.
@@ -78,7 +78,7 @@ Output format
 3. For each subsection include:
    - One to three findings when warranted. Do not force exactly one finding if more are worth mentioning.
    - For each finding: headline, version, exact date, why it matters in 1 to 2 short sentences or short bullets, official source links, and action for me: watch / read / upgrade / ignore
-4. Keep each library as a persistent Findings log so new findings can be saved for future reference until cleared.
+4. Treat the findings file as the current latest snapshot, not as a permanent history log.
 5. End with "Worth watching next" for emerging frontend items.
 
 Quality bar

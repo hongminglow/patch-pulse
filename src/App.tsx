@@ -18,9 +18,9 @@ function App() {
     activeLogLaneCount,
     logsByItemId,
     savedLogCount,
+    clearLog,
     clearAllLogs,
     clearCategoryLogs,
-    clearItemLogs,
   } = useResearchLogs(watchItems)
 
   const officialSourceCount = watchItems.reduce(
@@ -54,7 +54,7 @@ function App() {
             items={watchItems.filter((item) => item.categoryId === category.id)}
             logsByItemId={logsByItemId}
             onClearCategoryLogs={clearCategoryLogs}
-            onClearItemLogs={clearItemLogs}
+            onClearLog={clearLog}
           />
         ))}
       </main>

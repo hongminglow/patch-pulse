@@ -8,7 +8,7 @@ The goal is simple:
 - Later, type only `pulse`.
 - The agent should sweep your tracked stack, find the latest official updates, and return the important news with links.
 
-This repo now acts as the visual command center for that workflow. It groups your watchlist into clean sections, surfaces official source links per item, and lets you clear findings without deleting the file-backed watch data.
+This repo now acts as the visual command center for that workflow. It groups your watchlist into clean sections, surfaces official source links per item, and treats the local findings file as the source of truth.
 
 ## What the app is trying to do
 
@@ -53,11 +53,13 @@ That structure keeps the dashboard readable and makes it easier to scan by menta
 
 Every watch card is now a permanent lane, and the changing part is the Findings log under that lane.
 
-- Each library can keep its own Findings for future reference.
-- Clear an item to remove only that item's Findings.
-- Clear a section to remove only the Findings inside that section.
+- Each library can show one or more latest Findings from the current sweep.
+- Remove one finding at a time from the current view when you no longer need it on screen.
+- Hide a whole section or the whole board temporarily if you want a cleaner scan.
 - The watch cards themselves stay visible.
-- Findings come from the local source file, while the browser only remembers which ones you have cleared.
+- Findings come from the local source file, and UI clearing does not rewrite the file.
+
+If you want a fresh `pulse` sweep to replace old findings, the AI agent that runs it needs permission to edit [src/data/researchLogs.ts](C:/Users/User/OneDrive/Desktop/CodeTest/patch-pulse/src/data/researchLogs.ts). This app reads that file; it does not mutate it on its own at runtime.
 
 ## Recommended usage flow
 
@@ -72,15 +74,9 @@ Every watch card is now a permanent lane, and the changing part is the Findings 
 
 The reusable agent prompt now lives in a separate file so it stays clean and copy-ready:
 
-- [MASTER_PROMPT.md](C:/Users/User/OneDrive/Desktop/CodeTest/up-to-date/MASTER_PROMPT.md)
+- [MASTER_PROMPT.md](C:/Users/User/OneDrive/Desktop/CodeTest/patch-pulse/MASTER_PROMPT.md)
 
 Use that file directly when you want to initialize or refresh the AI agent instructions.
-
-## Findings file
-
-The last migrated report that had been mistakenly appended into the prompt now lives here:
-
-- [FINDINGS.md](C:/Users/User/OneDrive/Desktop/CodeTest/up-to-date/FINDINGS.md)
 
 ## Design direction
 

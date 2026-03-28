@@ -1,6 +1,5 @@
 import type { ResearchLog } from '../../data/researchLogs'
 import type { WatchCategory, WatchItem } from '../../data/watchlist'
-import { ClearIcon } from '../ui/ClearIcon'
 import { WatchCard } from './WatchCard'
 
 type WatchCategorySectionProps = {
@@ -8,7 +7,7 @@ type WatchCategorySectionProps = {
   items: WatchItem[]
   logsByItemId: Record<string, ResearchLog[]>
   onClearCategoryLogs: (categoryId: WatchCategory['id']) => void
-  onClearItemLogs: (itemId: string) => void
+  onClearLog: (logId: string) => void
 }
 
 export function WatchCategorySection({
@@ -16,7 +15,7 @@ export function WatchCategorySection({
   items,
   logsByItemId,
   onClearCategoryLogs,
-  onClearItemLogs,
+  onClearLog,
 }: WatchCategorySectionProps) {
   if (items.length === 0) {
     return null
@@ -34,13 +33,12 @@ export function WatchCategorySection({
         </div>
 
         <button
-          className="button button--ghost button--icon"
+          className="button button--ghost"
           type="button"
           onClick={() => onClearCategoryLogs(category.id)}
           disabled={!hasCategoryLogs}
         >
-          <ClearIcon />
-          Clear findings
+          Hide section findings
         </button>
       </div>
 
@@ -50,7 +48,7 @@ export function WatchCategorySection({
             key={item.id}
             item={item}
             logs={logsByItemId[item.id] ?? []}
-            onClearLogs={onClearItemLogs}
+            onClearLog={onClearLog}
           />
         ))}
       </div>

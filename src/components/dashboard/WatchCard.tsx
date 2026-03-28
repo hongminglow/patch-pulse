@@ -5,23 +5,12 @@ import { ClearIcon } from '../ui/ClearIcon'
 type WatchCardProps = {
   item: WatchItem
   logs: ResearchLog[]
-  onClearLogs: (itemId: string) => void
+  onClearLog: (logId: string) => void
 }
 
-export function WatchCard({ item, logs, onClearLogs }: WatchCardProps) {
+export function WatchCard({ item, logs, onClearLog }: WatchCardProps) {
   return (
     <article className="watch-card">
-      {logs.length > 0 ? (
-        <button
-          className="watch-card__clear"
-          type="button"
-          onClick={() => onClearLogs(item.id)}
-          aria-label={`Clear findings for ${item.name}`}
-        >
-          <ClearIcon />
-        </button>
-      ) : null}
-
       <div className="watch-card__top">
         <span className="watch-card__kind">{item.kind}</span>
         <span className="watch-card__cadence">{item.cadence}</span>
@@ -50,13 +39,18 @@ export function WatchCard({ item, logs, onClearLogs }: WatchCardProps) {
         {logs.length > 0 ? (
           <div className="log-list">
             {logs.map((log) => (
-              <LogCard key={log.id} log={log} />
+              <LogCard
+                key={log.id}
+                log={log}
+                itemName={item.name}
+                onClearLog={onClearLog}
+              />
             ))}
           </div>
         ) : (
           <div className="watch-card__empty">
             No findings yet. Future <code>pulse</code> results for this library
-            should be stored here as a running log.
+            should replace the latest snapshot shown here.
           </div>
         )}
       </div>
@@ -81,14 +75,32 @@ export function WatchCard({ item, logs, onClearLogs }: WatchCardProps) {
   )
 }
 
-function LogCard({ log }: { log: ResearchLog }) {
+function LogCard({
+  log,
+  itemName,
+  onClearLog,
+}: {
+  log: ResearchLog
+  itemName: string
+  onClearLog: (logId: string) => void
+}) {
   const summaryPoints = Array.isArray(log.summary) ? log.summary : [log.summary]
 
   return (
     <article className="log-card">
       <div className="log-card__top">
-        <span className="log-card__kind">{log.kind}</span>
-        <span className="log-card__date">{log.date}</span>
+        <div className="log-card__meta">
+          <span className="log-card__kind">{log.kind}</span>
+          <span className="log-card__date">{log.date}</span>
+        </div>
+        <button
+          className="log-card__clear"
+          type="button"
+          onClick={() => onClearLog(log.id)}
+          aria-label={`Remove finding "${log.title}" from ${itemName}`}
+        >
+          <ClearIcon />
+        </button>
       </div>
       <h4>{log.title}</h4>
       {log.version ? <p className="log-card__version">Version {log.version}</p> : null}
