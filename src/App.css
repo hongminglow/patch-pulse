@@ -124,10 +124,22 @@
 
 .top-stage__main,
 .top-stage__side {
+  min-height: 0;
+}
+
+.top-stage__main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+  overflow: visible;
+}
+
+.top-stage__side {
   display: grid;
   gap: 20px;
+  grid-template-rows: auto auto auto;
   align-content: start;
-  min-height: 100%;
 }
 
 .panel-copy {
@@ -268,9 +280,30 @@
 }
 
 .prompt-panel {
+  flex: 1 1 0;
+  height: 0;
   min-width: 0;
   display: flex;
   flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  border-color: rgba(118, 176, 255, 0.22);
+  background:
+    linear-gradient(180deg, rgba(9, 19, 37, 0.98), rgba(5, 12, 25, 0.98)),
+    var(--color-surface);
+  box-shadow:
+    0 0 0 1px rgba(118, 176, 255, 0.05),
+    var(--shadow-card);
+}
+
+.prompt-panel::before {
+  left: auto;
+  right: -34px;
+  bottom: auto;
+  top: -32px;
+  width: 180px;
+  height: 140px;
+  border-radius: 0 0 42% 58%;
 }
 
 .section-intro {
@@ -621,12 +654,25 @@
   font-size: 0.92rem;
   line-height: 1.7;
   flex: 1;
-  min-height: 380px;
+  min-height: 0;
   max-height: none;
   overflow: auto;
 }
 
 @media (max-width: 1180px) {
+  .top-stage__main {
+    height: auto;
+    overflow: visible;
+  }
+
+  .top-stage__side {
+    grid-template-rows: auto;
+  }
+
+  .prompt-box {
+    min-height: 380px;
+  }
+
   .top-stage {
     grid-template-columns: 1fr;
   }
