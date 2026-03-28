@@ -66,6 +66,7 @@ Sweep rules
 - Keep instructions separate from findings. Do not append research results into this master prompt.
 - Place each finding under the correct watched item so every library keeps its own Findings section or log.
 - New findings should be appended to that library log, not scattered across unrelated sections.
+- If a section has multiple worthwhile updates, include multiple findings instead of forcing only one.
 - If I clear an item or section, that means clear Findings for that lane only, not remove the watched library itself.
 - For TanStack, group findings under Router, Start, Query, and Other TanStack.
 - For linting, group findings under ESLint, Biome, oxlint, and typescript-eslint.
@@ -75,12 +76,8 @@ Output format
 1. Executive summary: the most important updates across the sweep.
 2. By library: one subsection per watched item or grouped lane.
 3. For each subsection include:
-   - Latest update headline
-   - Version
-   - Exact date
-   - Why it matters in 1 to 2 short sentences
-   - Official source links
-   - Action for me: watch / read / upgrade / ignore
+   - One to three findings when warranted. Do not force exactly one finding if more are worth mentioning.
+   - For each finding: headline, version, exact date, why it matters in 1 to 2 short sentences or short bullets, official source links, and action for me: watch / read / upgrade / ignore
 4. Keep each library as a persistent Findings log so new findings can be saved for future reference until cleared.
 5. End with "Worth watching next" for emerging frontend items.
 

@@ -45,41 +45,12 @@ export function WatchCard({ item, logs, onClearLogs }: WatchCardProps) {
       </div>
 
       <div className="watch-card__block">
-        <div className="watch-card__log-header">
-          <span className="watch-card__label">Findings</span>
-          {logs.length > 0 ? (
-            <button
-              className="watch-card__inline-clear"
-              type="button"
-              onClick={() => onClearLogs(item.id)}
-            >
-              Clear findings
-            </button>
-          ) : null}
-        </div>
+        <span className="watch-card__label">Findings</span>
 
         {logs.length > 0 ? (
           <div className="log-list">
             {logs.map((log) => (
-              <article className="log-card" key={log.id}>
-                <div className="log-card__top">
-                  <span className="log-card__kind">{log.kind}</span>
-                  <span className="log-card__date">{log.date}</span>
-                </div>
-                <h4>{log.title}</h4>
-                {log.version ? (
-                  <p className="log-card__version">Version {log.version}</p>
-                ) : null}
-                <p>{log.summary}</p>
-                <a
-                  className="source-link source-link--log"
-                  href={log.sourceHref}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {log.sourceLabel}
-                </a>
-              </article>
+              <LogCard key={log.id} log={log} />
             ))}
           </div>
         ) : (
@@ -106,6 +77,38 @@ export function WatchCard({ item, logs, onClearLogs }: WatchCardProps) {
           ))}
         </div>
       </div>
+    </article>
+  )
+}
+
+function LogCard({ log }: { log: ResearchLog }) {
+  const summaryPoints = Array.isArray(log.summary) ? log.summary : [log.summary]
+
+  return (
+    <article className="log-card">
+      <div className="log-card__top">
+        <span className="log-card__kind">{log.kind}</span>
+        <span className="log-card__date">{log.date}</span>
+      </div>
+      <h4>{log.title}</h4>
+      {log.version ? <p className="log-card__version">Version {log.version}</p> : null}
+      {summaryPoints.length === 1 ? (
+        <p>{summaryPoints[0]}</p>
+      ) : (
+        <ul className="log-card__summary-list">
+          {summaryPoints.map((point) => (
+            <li key={point}>{point}</li>
+          ))}
+        </ul>
+      )}
+      <a
+        className="source-link source-link--log"
+        href={log.sourceHref}
+        target="_blank"
+        rel="noreferrer"
+      >
+        {log.sourceLabel}
+      </a>
     </article>
   )
 }

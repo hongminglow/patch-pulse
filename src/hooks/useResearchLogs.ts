@@ -3,56 +3,98 @@ import { useEffect, useState } from 'react'
 import { starterResearchLogs, type ResearchLog } from '../data/researchLogs'
 import type { WatchCategoryId, WatchItem } from '../data/watchlist'
 
-const researchLogStorageKey = 'patch-pulse.findings.v2'
+const legacyResearchLogStorageKey = 'patch-pulse.findings.v2'
+const hiddenResearchLogStorageKey = 'patch-pulse.hidden-findings.v1'
 
-function readStoredLogs() {
+function isValidResearchLog(log: unknown): log is ResearchLog {
+  if (typeof log !== 'object' || log === null) {
+    return false
+  }
+
+  const maybeLog = log as Partial<ResearchLog>
+  const hasValidSummary =
+    typeof maybeLog.summary === 'string' ||
+    (Array.isArray(maybeLog.summary) &&
+      maybeLog.summary.every((point) => typeof point === 'string'))
+
+  return (
+    typeof maybeLog.id === 'string' &&
+    typeof maybeLog.itemId === 'string' &&
+    typeof maybeLog.title === 'string' &&
+    typeof maybeLog.kind === 'string' &&
+    typeof maybeLog.date === 'string' &&
+    hasValidSummary &&
+    typeof maybeLog.sourceLabel === 'string' &&
+    typeof maybeLog.sourceHref === 'string'
+  )
+}
+
+function uniqueIds(ids: string[]) {
+  return [...new Set(ids)]
+}
+
+function readStoredHiddenLogIds() {
   if (typeof window === 'undefined') {
-    return starterResearchLogs
+    return []
   }
 
   try {
-    const raw = window.localStorage.getItem(researchLogStorageKey)
+    const rawHiddenIds = window.localStorage.getItem(hiddenResearchLogStorageKey)
 
-    if (!raw) {
-      return starterResearchLogs
+    if (rawHiddenIds) {
+      const parsedHiddenIds = JSON.parse(rawHiddenIds)
+      return Array.isArray(parsedHiddenIds)
+        ? uniqueIds(
+            parsedHiddenIds.filter((value): value is string => typeof value === 'string'),
+          )
+        : []
     }
 
-    const parsed = JSON.parse(raw)
-    return Array.isArray(parsed)
-      ? parsed.filter((value): value is ResearchLog => {
-          return (
-            typeof value === 'object' &&
-            value !== null &&
-            typeof value.id === 'string' &&
-            typeof value.itemId === 'string' &&
-            typeof value.title === 'string' &&
-            typeof value.kind === 'string' &&
-            typeof value.date === 'string' &&
-            typeof value.summary === 'string' &&
-            typeof value.sourceLabel === 'string' &&
-            typeof value.sourceHref === 'string'
-          )
-        })
-      : starterResearchLogs
-  } catch {
+    const rawLegacyLogs = window.localStorage.getItem(legacyResearchLogStorageKey)
+
+    if (!rawLegacyLogs) {
+      return []
+    }
+
+    const parsedLegacyLogs = JSON.parse(rawLegacyLogs)
+
+    if (!Array.isArray(parsedLegacyLogs)) {
+      return []
+    }
+
+    const visibleLogIds = new Set(
+      parsedLegacyLogs.filter(isValidResearchLog).map((log) => log.id),
+    )
+
     return starterResearchLogs
+      .filter((log) => !visibleLogIds.has(log.id))
+      .map((log) => log.id)
+  } catch {
+    return []
   }
 }
 
-function writeStoredLogs(logs: ResearchLog[]) {
+function writeStoredHiddenLogIds(hiddenLogIds: string[]) {
   if (typeof window === 'undefined') {
     return
   }
 
-  window.localStorage.setItem(researchLogStorageKey, JSON.stringify(logs))
+  window.localStorage.setItem(
+    hiddenResearchLogStorageKey,
+    JSON.stringify(uniqueIds(hiddenLogIds)),
+  )
+  window.localStorage.removeItem(legacyResearchLogStorageKey)
 }
 
 export function useResearchLogs(items: WatchItem[]) {
-  const [logs, setLogs] = useState<ResearchLog[]>(() => readStoredLogs())
+  const [hiddenLogIds, setHiddenLogIds] = useState<string[]>(() => readStoredHiddenLogIds())
 
   useEffect(() => {
-    writeStoredLogs(logs)
-  }, [logs])
+    writeStoredHiddenLogIds(hiddenLogIds)
+  }, [hiddenLogIds])
+
+  const hiddenLogIdSet = new Set(hiddenLogIds)
+  const logs = starterResearchLogs.filter((log) => !hiddenLogIdSet.has(log.id))
 
   const logsByItemId = items.reduce<Record<string, ResearchLog[]>>((acc, item) => {
     acc[item.id] = logs.filter((log) => log.itemId === item.id)
@@ -64,8 +106,16 @@ export function useResearchLogs(items: WatchItem[]) {
     (itemLogs) => itemLogs.length > 0,
   ).length
 
+  function hideLogIds(logIds: string[]) {
+    setHiddenLogIds((current) => uniqueIds([...current, ...logIds]))
+  }
+
   function clearItemLogs(itemId: string) {
-    setLogs((current) => current.filter((log) => log.itemId !== itemId))
+    hideLogIds(
+      starterResearchLogs
+        .filter((log) => log.itemId === itemId)
+        .map((log) => log.id),
+    )
   }
 
   function clearCategoryLogs(categoryId: WatchCategoryId) {
@@ -73,11 +123,15 @@ export function useResearchLogs(items: WatchItem[]) {
       items.filter((item) => item.categoryId === categoryId).map((item) => item.id),
     )
 
-    setLogs((current) => current.filter((log) => !itemIds.has(log.itemId)))
+    hideLogIds(
+      starterResearchLogs
+        .filter((log) => itemIds.has(log.itemId))
+        .map((log) => log.id),
+    )
   }
 
   function clearAllLogs() {
-    setLogs([])
+    setHiddenLogIds(starterResearchLogs.map((log) => log.id))
   }
 
   return {

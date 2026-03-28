@@ -128,8 +128,9 @@ export function TopStage({
             <h2>Clear logs without removing watch lanes</h2>
             <p className="panel-copy">
               Cards remain permanent. Clear actions only remove findings
-              for the lane or section you no longer need, while anything you
-              keep stays in local browser storage for future reference.
+              for the lane or section you no longer need. The source findings
+              stay file-backed, while the browser only remembers which entries
+              you have cleared between sessions.
             </p>
 
             <div className="memory-grid">

@@ -1,3 +1,5 @@
+export type ResearchLogSummary = string | string[]
+
 export type ResearchLog = {
   id: string
   itemId: string
@@ -5,7 +7,7 @@ export type ResearchLog = {
   kind: string
   date: string
   version?: string
-  summary: string
+  summary: ResearchLogSummary
   sourceLabel: string
   sourceHref: string
 }
@@ -90,8 +92,11 @@ export const starterResearchLogs: ResearchLog[] = [
     kind: 'Release',
     date: '2025-12-18',
     version: '16.1.1',
-    summary:
-      'Stable file-system caching for next dev, experimental bundle analysis, and improved debugging made this a notable release line.',
+    summary: [
+      'Stable file-system caching made `next dev` more usable on larger projects.',
+      'Experimental bundle analysis expanded the tooling available during performance work.',
+      'Debugging improvements made the 16.1 line more practical for daily development.',
+    ],
     sourceLabel: 'Next.js 16.1',
     sourceHref: 'https://nextjs.org/blog/next-16-1',
   },
@@ -198,8 +203,11 @@ export const starterResearchLogs: ResearchLog[] = [
     kind: 'Release',
     date: '2026-02-10',
     version: '2.4',
-    summary:
-      'This is one of the strongest tooling releases in the sweep, especially for teams touching Vue, Svelte, Astro, HTML, and embedded snippets.',
+    summary: [
+      'Embedded snippet support widened the kinds of mixed-content files Biome can understand.',
+      'HTML accessibility improvements made the release especially relevant for frontend teams shipping templated UI.',
+      'The update is notably useful if your stack touches Vue, Svelte, Astro, or HTML-heavy surfaces.',
+    ],
     sourceLabel: 'Biome 2.4 announcement',
     sourceHref: 'https://biomejs.dev/blog/biome-v2-4/',
   },

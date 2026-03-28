@@ -8,7 +8,7 @@ The goal is simple:
 - Later, type only `pulse`.
 - The agent should sweep your tracked stack, find the latest official updates, and return the important news with links.
 
-This repo now acts as the visual command center for that workflow. It groups your watchlist into clean sections, surfaces official source links per item, and lets you clear cards from local browser storage when you no longer want to see them.
+This repo now acts as the visual command center for that workflow. It groups your watchlist into clean sections, surfaces official source links per item, and lets you clear findings without deleting the file-backed watch data.
 
 ## What the app is trying to do
 
@@ -57,7 +57,7 @@ Every watch card is now a permanent lane, and the changing part is the Findings 
 - Clear an item to remove only that item's Findings.
 - Clear a section to remove only the Findings inside that section.
 - The watch cards themselves stay visible.
-- Findings are stored in local browser storage until you clear them.
+- Findings come from the local source file, while the browser only remembers which ones you have cleared.
 
 ## Recommended usage flow
 
