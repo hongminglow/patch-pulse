@@ -131,10 +131,10 @@ export function TopStage({
 
           <section className="panel compact-panel">
             <p className="eyebrow">Findings</p>
-            <h2>Hide findings without removing watch lanes</h2>
+            <h2>Clear findings without removing watch lanes</h2>
             <p className="panel-copy">
               Findings in this dashboard are read from the local source file.
-              Removing one here only hides it for the current view, so a fresh
+              Removing one here updates the JSON source file directly, so a fresh
               <code>{commandAlias}</code> run can replace the file with the next
               latest sweep cleanly.
             </p>
@@ -164,7 +164,7 @@ export function TopStage({
               onClick={onClearAllLogs}
               disabled={savedLogCount === 0 || findingsLoading || findingsSaving}
             >
-              Hide all findings
+              Clear all findings
             </button>
           </section>
 

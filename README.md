@@ -55,7 +55,7 @@ Every watch card is now a permanent lane, and the changing part is the Findings 
 
 - Each library can show one or more latest Findings from the current sweep.
 - Remove one finding at a time and persist that change back into the JSON file.
-- Hide a whole section or the whole board by rewriting the same JSON file.
+- Clear a whole section or the whole board by rewriting the same JSON file.
 - The watch cards themselves stay visible.
 - Findings come from the local JSON source file and the UI updates that file through the local Vite API.
 

@@ -40,7 +40,7 @@ export function WatchCategorySection({
           onClick={() => onClearCategoryLogs(category.id)}
           disabled={!hasCategoryLogs || actionsDisabled}
         >
-          Hide section findings
+          Clear findings
         </button>
       </div>
 
